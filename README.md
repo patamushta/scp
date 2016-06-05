@@ -1,3 +1,7 @@
+Connection point for interactive television platform. 
+
+Simple workability test:
+
 ```
 virtualenv scpenv
 source scpenv/bin/activate
