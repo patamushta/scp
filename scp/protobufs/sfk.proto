@@ -1,0 +1,175 @@
+// Spec for SFK <--> Rengine protocol
+//
+
+package sfk;
+
+message Session {
+        required int64 fid = 1;
+        optional string params = 2;     // JSON
+        optional string caps = 3;       // JSON (array of capabilities)
+}
+
+message Merge {
+        optional int64   cdiff = 1;
+        required uint32 length = 2;
+        optional bool    flush = 3;     // flush after merge, non-sfk clock only!
+
+        optional string flush_props=4;  // JSON, flush related props
+}
+
+message Javascript {
+        required uint32 length = 1;
+        optional string filename = 2; // Filename to be passed to gjs_context_eval
+}
+
+// Сообщения для отправки произвольных данных, определённым content-type
+message Data {
+        required string content_type = 1;
+        required string payload = 2;
+}
+
+
+
+message Start {
+
+    enum CoreType {
+            CLUTTER = 1;
+            OGRE   = 2;
+    }
+        optional bool keepalive = 5;
+        optional string   clock = 6;
+        required Merge    merge = 7;
+        optional int64 start_tick = 8;
+        optional CoreType core = 9;
+        optional int64 width = 10;
+        optional int64 height = 11;
+        optional bool offscreen = 12;
+        optional bool onscreen = 13;
+        optional int64 anchor_x = 14;
+        optional int64 anchor_y = 15;
+}
+
+message Ping {
+        required int64 ctime = 1;       // cache size on the client side
+        optional int64 stime = 2;       // system time
+}
+
+message Sync {
+        // TODO ?
+}
+
+message Stop {
+        optional string reason = 1;     // stop reason
+}
+
+message Event {
+        // PRESS/RELEASE ..
+        //  - what about motion ?
+        required int32 type = 1;
+        required int32 x     = 2;
+        required int32 y     = 3;
+        optional int32 eid   = 4;       // event-id
+}
+
+message DeferrMerge {
+        required int64  moment  = 1;     // absolute time for AT moment (1khz)
+        required uint32  length = 2;
+        optional bool     flush = 3;     // flush after merge, non-sfk clock only!
+    required int64 merge_id = 4;     // merge_id -- rengine will send signal after merge with this id will be applied
+}
+
+message Signal {
+        required string object  = 1;    // script_id of the object
+        required string signame = 2;
+
+        // Optional data (json) attached to signal
+        optional string data    = 3;
+}
+
+message Tick {
+        required int64 tick = 1;
+        optional uint32 length = 2;
+        optional bool  flush = 3;
+}
+
+message TickDone {
+        required int64 tick = 1;
+        optional uint32 length = 2;
+}
+
+message Error {
+        required int32 code = 1;
+        optional string error = 2;
+}
+
+message GetProperty {
+        required string objid = 1;
+        required string pname = 2;      // property name
+}
+
+message PropertyValue {
+        required string objid = 1;
+        required string pname = 2;
+        required string pval  = 3;    // JSON
+}
+
+message Destroy {
+        repeated string objects  = 1;    // IDs to destroy
+}
+
+message OutputPointSetup {
+        required string guid  = 1;
+}
+
+
+
+message Msg {
+    
+    enum MsgType {
+            SESSION = 3;
+            START   = 4;
+            MERGE   = 5;
+            PING    = 6;
+            SYNC    = 7;
+            STOP    = 8;
+            EVENT   = 9;
+            DEFERR_MERGE = 10;
+            SIGNAL  = 11;
+            TICK    = 12;
+            TICKDONE = 13;
+            ERROR   = 14;
+            GETPROP = 15;
+            PROPVAL = 16;
+            CLIENT_ADDED = 17;
+            CLIENT_REMOVED = 18;
+            JAVASCRIPT = 19;
+            DATA = 20;
+            DESTROY = 21;
+            OUTPUT_POINT_SETUP = 22;
+
+    }
+
+        required MsgType mtype = 2;
+
+        optional Session session = 3;
+        optional Start start = 4;
+        optional Merge merge = 5;
+        optional Ping   ping = 6;
+        optional Sync   sync = 7;
+        optional Stop   stop = 8;
+        optional Event event = 9;
+        optional DeferrMerge deferr_merge = 10;
+        optional Signal signal = 11;
+        optional Tick  tick = 12;
+        optional TickDone tick_done = 13;
+        optional Error error = 14;
+
+        optional GetProperty getprop = 15;
+        optional PropertyValue propval = 16;
+        optional Javascript javascript = 19;
+        optional Data data = 20;
+
+        optional Destroy destroy = 21;
+
+        optional OutputPointSetup output_point_setup = 22;
+}

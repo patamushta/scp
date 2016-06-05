@@ -1,0 +1,1 @@
+protoc -I=/home/user/Dropbox/dioct/scp/output-point/scp/protobufs --python_out=/home/user/Dropbox/dioct/scp/output-point/scp/protobufs /home/user/Dropbox/dioct/scp/output-point/scp/protobufs/scp.proto

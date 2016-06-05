@@ -1,0 +1,16 @@
+[sfk_server] 
+host = 0.0.0.0
+port = 6009
+
+[rengine_server]
+host = 0.0.0.0
+port = 6008
+
+[http_server]
+host = 0.0.0.0
+port = 8080
+
+[scp_userbase]
+host = "localhost:8090"
+uid = "scp-staging"
+token = h2HXyR442d4zcBwkTMBNSEETKc7fvss6f1LCpazZ

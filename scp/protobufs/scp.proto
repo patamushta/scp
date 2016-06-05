@@ -1,0 +1,40 @@
+message SfkConnectionPointAuth {
+        required string token = 1; // SFK auth token
+        required string appid = 2; // SFK app id
+}
+
+message Ping {
+        required int64 ctime = 1;       // cache size on the client side
+        optional int64 stime = 2;       // system time
+}
+
+message Pong {
+        required int64 ctime = 1;
+        optional int64 stime = 2;
+}
+
+message SfkContent {
+        required string identifier = 1; // SFK content identifier (URL without scheme)
+        required string request_id = 2; // string uuid just for uniqueness
+        repeated string headers = 3;    // Rengine can provide custom HTTP headers, e.g. Range
+}
+
+
+
+message Msg {
+        
+    enum MsgType {
+            AUTH = 1;
+            PING = 2;
+            PONG = 3;
+            MESSAGE = 4; // just a message for rengine not for scp itself
+            SFKCONTENT = 5;
+            SESSION_DROPPED = 6;
+    }
+
+        required MsgType mtype = 1;
+        optional SfkConnectionPointAuth auth = 2;
+        optional Ping ping = 3;
+        optional Pong pong = 4;
+        optional SfkContent content = 5;
+}

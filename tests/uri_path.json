@@ -1,0 +1,5 @@
+{
+    "example.com/files/test1": "/home/user/rk86.jpg",
+    "foobar.google.suxx/very/long/path.aa": "/home/user/shot.jpg",
+    "bindata/test_bin" : "/home/user/bindata.bin"
+}
