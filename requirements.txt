@@ -1,0 +1,5 @@
+eventlet==0.14.0
+protobuf==2.5.0
+bottle==0.12.5
+dosca==1.2.6
+requests==2.3.0
