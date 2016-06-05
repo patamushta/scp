@@ -1,0 +1,7 @@
+#!/usr/bin/python
+# coding: utf-8
+
+from scp import run_app
+
+if __name__ == "__main__":
+    run_app()
